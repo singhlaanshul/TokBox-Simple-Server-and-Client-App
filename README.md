@@ -1,4 +1,4 @@
-<h2>Simple TokBox Client and Server Application</h2></br></br>
+<h2>Simple TokBox Client and Server Application</h2>
 
 <h4>Server</h4>
 Index.js : Intercepts all requests from client html files
