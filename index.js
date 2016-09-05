@@ -13,7 +13,7 @@ app=express();
 app.use(express.static(__dirname + '/views/public'));
 
 //Starting the server
-var server=app.listen(9092, function () {
+var server=app.listen(process.env.PORT || 5000, function () {
 
   var host = server.address().address
   var port = server.address().port
