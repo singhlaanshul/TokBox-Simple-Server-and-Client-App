@@ -1,9 +1,9 @@
 var OpenTok = require('opentok')
 var express= require('express')
-var fs = require('fs');
-var qs = require('querystring');
+var fs = require('fs')
+var qs = require('querystring')
 var url=require('url')
-var ejs=require('ejs');
+var ejs=require('ejs')
 var newSessionCreated=false;
 var sessionId; 
 var apiKey='45631912';
