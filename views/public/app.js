@@ -3,7 +3,7 @@ var apiKey='45631912';
 function getSession(){
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8081/getSession',
+				url: '/getSession',
 				success: function(resultData) {
 					console.log(resultData);
 					document.getElementById("sessionId").innerHTML=resultData.sessionId;
@@ -14,7 +14,7 @@ function getSession(){
 			var sessionId=document.getElementById("sessionId").innerHTML;
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8081/getToken?sessionId='+sessionId,
+				url: '/getToken?sessionId='+sessionId,
 				success: function(resultData) {
 					console.log(resultData);
 					document.getElementById("tokenId").innerHTML=resultData.tokenId;
