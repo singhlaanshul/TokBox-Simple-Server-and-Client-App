@@ -44,8 +44,8 @@ function initializeSession(sessionId, tokenId) {
     if (!error) {
       var publisher = OT.initPublisher('publisher', {
         insertMode: 'append',
-        width: '50%',
-        height: '50%'
+        width: '100%',
+        height: '100%'
       });
 
       session.publish(publisher);
@@ -58,8 +58,8 @@ function initializeSession(sessionId, tokenId) {
   session.on('streamCreated', function(event) {
     session.subscribe(event.stream, 'subscriber', {
       insertMode: 'append',
-      width: '50%',
-      height: '50%'
+      width: '100%',
+      height: '100%'
     });
   });
 
