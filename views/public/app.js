@@ -41,7 +41,9 @@ function initializeSession(sessionId, tokenId) {
   session.connect(	tokenId, function(error) {
     // If the connection is successful, initialize a publisher and publish to the session
 	console.log("Establishing connection! please wait...");
-    if (!error) {
+    if (error) {
+      console.log('Unable to connect: ', error.message);
+    }else{
       var publisher = OT.initPublisher('publisher', {
         insertMode: 'append',
         width: '100%',
@@ -63,8 +65,29 @@ function initializeSession(sessionId, tokenId) {
     });
   });
 
-  session.on('sessionDisconnected', function(event) {
-    console.log('You were disconnected from the session.', event.reason);
+  session.on({
+    connectionCreated: function (event) {
+      connectionCount++;
+      console.log(connectionCount + ' connections.');
+    },
+    connectionDestroyed: function (event) {
+      connectionCount--;
+      console.log(connectionCount + ' connections.');
+    },
+    sessionDisconnected: function sessionDisconnectHandler(event) {
+      // The event is defined by the SessionDisconnectEvent class
+      console.log('Disconnected from the session.', event.reason);
+      document.getElementById('disconnectBtn').style.display = 'none';
+      if (event.reason == 'networkDisconnected') {
+        alert('Your network connection terminated.')
+      }
+    }
   });
 
+
 }
+
+function disconnect() {
+  session.disconnect();
+}
+
