@@ -83,3 +83,14 @@ app.get('/getToken', function (req, res) {
 	else
 		console.log("POST METHOD YET TO BE IMPLEMENTED")
 })
+
+app.get('/getArchive',function(req, res){
+	if(req.method=='GET'){
+		console.log('\nRetrieving Archive on sessionId='+sessionId);
+		
+		
+		res.end();		
+	}
+	else
+		console.log("POST METHOD YET TO BE IMPLEMENTED")
+}

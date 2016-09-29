@@ -46,7 +46,7 @@ function initializeSession(sessionId, tokenId) {
 			console.log('Unable to connect: ', error.message);
 		}else{
 			publisherProperties={insertMode: 'append',width: '100%',height: '100%'};
-			var publisher = OT.initPublisher('publisher', publisherProperties , function (error){
+			var publisher = OT.initPublisher('publisherContainer', null , function (error){
 							if (error) {
 								console.log("The client cannot publish!")
 							} else {
