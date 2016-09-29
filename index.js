@@ -93,4 +93,4 @@ app.get('/getArchive',function(req, res){
 	}
 	else
 		console.log("POST METHOD YET TO BE IMPLEMENTED")
-}
+})
