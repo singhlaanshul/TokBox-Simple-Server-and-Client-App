@@ -86,7 +86,7 @@ app.get('/getToken', function (req, res) {
 
 app.get('/archiveNotification',function(req, res){
 	if(req.method=='POST'){
-		console.log('\nGot Notification on archive status change...");
+		console.log("\nGot Notification on archive status change...");
 		console.log("JSON as Body Parameter: "+request.body);
 		
 		res.end();		
