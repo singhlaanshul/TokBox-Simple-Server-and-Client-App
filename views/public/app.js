@@ -73,11 +73,8 @@ function initializeSession(sessionId, tokenId) {
   
 	// Subscribe to a newly created stream
 	session.on('streamCreated', function(event) {
-		session.subscribe(event.stream, 'subscriber', {
-			insertMode: 'append',
-			width: '100%',
-			height: '100%'
-		});
+		subscriberProperties={insertMode: 'append',width: '100%',height: '100%'};
+		session.subscribe(event.stream, 'subscriberContainer', null);
 	});
 
 	session.on({
