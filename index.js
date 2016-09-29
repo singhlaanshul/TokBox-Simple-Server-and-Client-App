@@ -84,10 +84,10 @@ app.get('/getToken', function (req, res) {
 		console.log("POST METHOD YET TO BE IMPLEMENTED")
 })
 
-app.get('/getArchive',function(req, res){
-	if(req.method=='GET'){
-		console.log('\nRetrieving Archive on sessionId='+sessionId);
-		
+app.get('/archiveNotification',function(req, res){
+	if(req.method=='POST'){
+		console.log('\nGot Notification on archive status change...");
+		console.log("JSON as Body Parameter: "+request.body);
 		
 		res.end();		
 	}
