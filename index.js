@@ -26,7 +26,7 @@ var server=app.listen(process.env.PORT || 5000, function () {
 app.get('/', function(req, res) {
 	console.log("\nLaunching client.html");
     
-	res.sendFile( __dirname + "/" + "views/public/client.html" );	
+	res.sendFile( __dirname + "/" + "views/public/screensharing-test.html" );	
 });
 
 //On Submitting the form, sessionId and Token are returned.
@@ -85,7 +85,7 @@ app.get('/getToken', function (req, res) {
 })
 
 app.get('/archiveNotification',function(req, res){
-	//if(req.method=='POST'){
+	if(req.method =="POST"){
 		console.log("\nGot Notification on archive status change...");
 		//console.log("JSON as Body Parameter: "+req.body);
 		
