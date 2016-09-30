@@ -26,7 +26,7 @@ var server=app.listen(process.env.PORT || 5000, function () {
 app.get('/', function(req, res) {
 	console.log("\nLaunching client.html");
     
-	res.sendFile( __dirname + "/" + "views/public/screensharing-test.html" );	
+	res.sendFile( __dirname + "/" + "views/public/screensharingtest.html" );	
 });
 
 //On Submitting the form, sessionId and Token are returned.
