@@ -90,7 +90,7 @@ app.get('/archiveNotification',function(req, res){
 		//console.log("JSON as Body Parameter: "+req.body);
 		
 		res.end();		
-	//}
+	}
 	//else
 		//console.log("GET METHOD YET TO BE IMPLEMENTED")
 })
