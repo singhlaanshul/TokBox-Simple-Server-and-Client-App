@@ -1,5 +1,5 @@
 var apiKey='45631912';
-
+var connectionCount=0;
 function getSession(){
 			$.ajax({
 				type: 'GET',
@@ -44,28 +44,42 @@ function initializeSession(sessionId, tokenId) {
 		console.log("Establishing connection! please wait...");
 		if (error) {
 			console.log('Unable to connect: ', error.message);
+			//Object doesn't support property or method 'connect'
 		}else{
 			publisherProperties={insertMode: 'append',width: '100%',height: '100%'};
 			var publisher = OT.initPublisher('publisherContainer', null , function (error){
 							if (error) {
-								console.log("The client cannot publish!")
+								console.log("initPublisher error: The client cannot publish!: "+error.message)
 							} else {
-								console.log('Publisher initialized.');
-								session.publish(publisher);
+								console.log('initPublisher method: Publisher initialized.');
+								session.publish(publisher, function(error) {
+									if (error) {
+										console.log("Publish method error:"+error.message);
+									} else {
+										console.log('Publish method: Publishing a stream.');
+									}
+								});
 							}
 						}
 			);
 			//The Publish object dispatches a streamCreated event when it starts streaming to the session:
 			//The Publisher object dispatches a streamDestroyed event when it stops streaming to the session: These reasons include "clientDisconnected", "forceDisconnected", "forceUnpublished", or "networkDisconnected"
-			//publisher.on(
-				//streamCreated: function (event) {
-					//	console.log('The publisher started streaming.');
-				//},
-				//streamDestroyed: function (event) {
-					//	console.log("The publisher stopped streaming. Reason: "+ event.reason);
-				//}
+			publisher.on({
+					accessAllowed: function (event) {
+						console.log("accessAllowed: The user has granted access to the camera and mic.");
+					},
+					accessDenied: function (event) {
+						event.preventDefault();
+						console.log("accessDenied: The user has denied access to the camera and mic.");
+					},
+					streamCreated: function (event) {
+						console.log('streamCreated: The publisher started streaming.');
+					},
+					streamDestroyed: function (event) {
+						console.log("streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
+					}
 			
-			//);
+		});
 		//} else {
 			//console.log('There was an error connecting to the session: ', error.code, error.message);
 		}
@@ -73,8 +87,15 @@ function initializeSession(sessionId, tokenId) {
   
 	// Subscribe to a newly created stream
 	session.on('streamCreated', function(event) {
+		console.log("New stream in the session: " + event.stream.streamId);
 		subscriberProperties={insertMode: 'append',width: '100%',height: '100%'};
-		session.subscribe(event.stream, 'subscriberContainer', null);
+		session.subscribe(event.stream, 'subscriberContainer',null, function(error){
+			if (error) {
+				console.log("Error while adding the subscriber:"+error);
+			} else {
+				console.log('Subscriber added.');
+			}
+		});
 	});
 
 	session.on({
@@ -101,3 +122,33 @@ function disconnect() {
   session.disconnect();
 }
 
+// Detect whether this browser is IE
+function isIE () {
+  var userAgent = window.navigator.userAgent.toLowerCase(),
+      appName = window.navigator.appName;
+ 
+  var result= ( appName === 'Microsoft Internet Explorer' ||                     		// IE <= 10
+           (appName === 'Netscape' && userAgent.indexOf('trident') > -1) );     // IE >= 11
+		   
+	console.log("The browser is IE:"+result);
+
+	var isInstalled = false;
+	var version = null;
+	var ieplugin=window.navigator.plugins;
+	console.log("IE plugins:"+ieplugin);
+	//if (window.ActiveXObject) {
+		var control = null;
+		try {
+			control = new ActiveXObject('Installer for OpenTok Plugin');
+			console.log("Tokbox Plugin exists");
+			if (control) {
+				isInstalled = true;
+				version = parseFloat(control.versionInfo);
+				console.log("Tokbox Plugin version:"+control.versionInfo);
+			}
+		} catch (e) {
+			console.log("Tokbox Plugin error exists:"+e);
+			return;
+		}
+	
+}
