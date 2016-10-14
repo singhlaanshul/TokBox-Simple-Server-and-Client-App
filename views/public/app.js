@@ -46,8 +46,8 @@ function initializeSession(sessionId, tokenId) {
 			console.log('Unable to connect: ', error.message);
 			//Object doesn't support property or method 'connect'
 		}else{
-			publisherProperties={insertMode: 'append',width: '100%',height: '100%'};
-			var publisher = OT.initPublisher('publisherContainer', null , function (error){
+			publisherProperties={resolution: '320x240'}; //,insertMode: 'append',width: '100%',height: '100%'
+			var publisher = OT.initPublisher('publisherContainer', publisherProperties , function (error){
 							if (error) {
 								console.log("initPublisher error: The client cannot publish!: "+error.message)
 							} else {
@@ -69,11 +69,11 @@ function initializeSession(sessionId, tokenId) {
 						console.log("accessAllowed: The user has granted access to the camera and mic.");
 					},
 					accessDenied: function (event) {
-						event.preventDefault();
+						//event.preventDefault();
 						console.log("accessDenied: The user has denied access to the camera and mic.");
 					},
 					streamCreated: function (event) {
-						console.log('streamCreated: The publisher started streaming.');
+						console.log('streamCreated: The publisher started streaming. Resolution='+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
 					},
 					streamDestroyed: function (event) {
 						console.log("streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
