@@ -46,7 +46,7 @@ function initializeSession(sessionId, tokenId) {
 			console.log('Unable to connect: ', error.message);
 			//Object doesn't support property or method 'connect'
 		}else{
-			publisherProperties={resolution: '320x240'}; //,insertMode: 'append',width: '100%',height: '100%'
+			publisherProperties={resolution: '640x480'}; //,insertMode: 'append',width: '100%',height: '100%'
 			var publisher = OT.initPublisher('publisherContainer', publisherProperties , function (error){
 							if (error) {
 								console.log("initPublisher error: The client cannot publish!: "+error.message)
