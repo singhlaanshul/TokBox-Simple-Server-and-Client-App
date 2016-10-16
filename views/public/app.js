@@ -93,10 +93,10 @@ function initializeSession(sessionId, tokenId) {
 						if (error) {
 							console.log("Error while adding the subscriber:"+error);
 						} else {
-							console.log('Subscriber added.');
+							console.log('Subscriber added.Now width of video resolution:'+subscriber.videoWidth()+'x'+subscriber.videoHeight());
 						}
 					});
-					console.log("Subscriber added: Now width of video resolution:"+subscriber.videoWidth()+"x"+subscriber.videoHeight());
+					//console.log("Subscriber added:");
 				},
 				'streamDestroyed',function(event){
 					console.log("Stream="+event.stream.name+" destroyed. Reason="+event.reason);
