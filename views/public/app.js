@@ -87,13 +87,13 @@ function initializeSession(sessionId, tokenId) {
   
 	// Subscribe to a newly created stream
 	session.on('streamCreated', function(event) {
-					console.log("New stream in the session. Going to subscribe to it. Stream Id= " + event.stream.streamId);
+					console.log("Subscribing Stream Id= " + event.stream.streamId);
 					subscriberProperties={insertMode: 'append',width: '100%',height: '100%'};
 					var subscriber= session.subscribe(event.stream, 'subscriberContainer',null, function(error){
 						if (error) {
 							console.log("Error while adding the subscriber:"+error);
 						} else {
-							console.log('Subscriber added.Now width of video resolution:'+subscriber.videoWidth()+'x'+subscriber.videoHeight());
+							console.log('Subscriber added.Now width of video resolution:'+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
 						}
 					});
 					//console.log("Subscriber added:");
