@@ -73,10 +73,10 @@ function initializeSession(sessionId, tokenId) {
 						console.log("accessDenied: The user has denied access to the camera and mic.");
 					},
 					streamCreated: function (event) {
-						console.log('streamCreated: The publisher started streaming. Resolution='+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
+						console.log('Publisher streamCreated: The publisher started streaming. Resolution='+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
 					},
 					streamDestroyed: function (event) {
-						console.log("streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
+						console.log("Publisher streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
 					}
 			
 		});
@@ -87,7 +87,7 @@ function initializeSession(sessionId, tokenId) {
   
 	// Subscribe to a newly created stream
 	session.on('streamCreated', function(event) {
-					console.log("Subscribing Stream Id= " + event.stream.streamId);
+					console.log("Session Stream Created Event: Subscribing Stream Id= " + event.stream.streamId);
 					subscriberProperties={insertMode: 'append',width: '100%',height: '100%'};
 					var subscriber= session.subscribe(event.stream, 'subscriberContainer',null, function(error){
 						if (error) {
@@ -99,22 +99,22 @@ function initializeSession(sessionId, tokenId) {
 					//console.log("Subscriber added:");
 				},
 				'streamDestroyed',function(event){
-					console.log("Stream="+event.stream.name+" destroyed. Reason="+event.reason);
+					console.log("Session Stream Destoryed Event: Stream="+event.stream.name+" destroyed. Reason="+event.reason);
 				}		
 	);
 
 	session.on({
 		connectionCreated: function (event) {
 			connectionCount++;
-			console.log(connectionCount + ' connections.');
+			console.log('Session Connection Created Event: '+connectionCount + ' connections.');
 		},
 		connectionDestroyed: function (event) {
 			connectionCount--;
-			console.log(connectionCount + ' connections.');
+			console.log('Session Connection Destroyed event: '+connectionCount + ' connections.');
 		},
 		sessionDisconnected: function sessionDisconnectHandler(event) {
 			// The event is defined by the SessionDisconnectEvent class
-			console.log('Disconnected from the session.', event.reason);
+			console.log('Session Disconnected Event: ', event.reason);
 			document.getElementById('disconnectBtn').style.display = 'none';
 			if (event.reason == 'networkDisconnected') {
 				alert('Your network connection terminated.')
