@@ -102,7 +102,7 @@ app.get('/StreamConnectionEvents',function(req, res){
 	console.log("Stream Connection event is created");
 		
 	if(req.method =="POST"){
-		console.log("\nStream or connection event is called : Post Type"");
+		console.log("\nStream or connection event is called : Post Type");
 		console.log("JSON as Body Parameter: "+req.body);
 			
 		res.end();		
