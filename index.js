@@ -96,7 +96,7 @@ app.get('/archiveNotification',function(req, res){
 	}
 	else{
 		console.log("Archive Notification is called : GET Type");
-})
+}})
 
 app.get('/StreamConnectionEvents',function(req, res){
 	console.log("Stream Connection event is created");
@@ -109,7 +109,7 @@ app.get('/StreamConnectionEvents',function(req, res){
 	}
 	else{
 		console.log("\nStream or connection event is called : GET Type")
-		
+	}
 		
 }
 app.get('/getarchives',function(req, res){
