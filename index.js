@@ -111,7 +111,7 @@ app.get('/StreamConnectionEvents',function(req, res){
 		console.log("\nStream or connection event is called : GET Type")
 	}
 		
-}
+})
 app.get('/getarchives',function(req, res){
 	if(req.method =="GET"){
 		console.log("\nRetrieving the Archive List...");
