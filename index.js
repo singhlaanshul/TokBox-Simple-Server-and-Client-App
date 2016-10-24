@@ -86,12 +86,13 @@ app.get('/getToken', function (req, res) {
 })
 
 app.get('/archiveNotification',function(req, res){
-	if(req.method =="POST"){
-		console.log("\nGot Notification on archive status change...");
+	console.log("ARCHIVE NOTIFICATION IS CALLED");
+	//if(req.method =="POST"){
+		//console.log("\nGot Notification on archive status change...");
 		//console.log("JSON as Body Parameter: "+req.body);
 		
-		res.end();		
-	}
+		//res.end();		
+	//}
 	//else
 		//console.log("GET METHOD YET TO BE IMPLEMENTED")
 })
