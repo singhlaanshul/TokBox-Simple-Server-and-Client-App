@@ -86,18 +86,32 @@ app.get('/getToken', function (req, res) {
 })
 
 app.get('/archiveNotification',function(req, res){
-	console.log("ARCHIVE NOTIFICATION IS CALLED");
-	//if(req.method =="POST"){
-		//console.log("\nGot Notification on archive status change...");
-		//console.log("JSON as Body Parameter: "+req.body);
+	console.log("A New Archive is created");
 		
-		//res.end();		
-	//}
-	//else
-		//console.log("GET METHOD YET TO BE IMPLEMENTED")
+	if(req.method =="POST"){
+		console.log("\nArchive Notification is called : Post Type"");
+		console.log("JSON as Body Parameter: "+req.body);
+		
+		res.end();		
+	}
+	else{
+		console.log("Archive Notification is called : GET Type");
 })
 
-
+app.get('/StreamConnectionEvents',function(req, res){
+	console.log("Stream Connection event is created");
+		
+	if(req.method =="POST"){
+		console.log("\nStream or connection event is called : Post Type"");
+		console.log("JSON as Body Parameter: "+req.body);
+			
+		res.end();		
+	}
+	else{
+		console.log("\nStream or connection event is called : GET Type")
+		
+		
+}
 app.get('/getarchives',function(req, res){
 	if(req.method =="GET"){
 		console.log("\nRetrieving the Archive List...");
