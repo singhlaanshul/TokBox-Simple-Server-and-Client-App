@@ -84,34 +84,19 @@ app.get('/getToken', function (req, res) {
 	else
 		console.log("POST METHOD YET TO BE IMPLEMENTED")
 })
-
+app.get('/testme', function(req,res){
+	console.log("Satnam Waheguru");
+}
+}
 app.get('/archiveNotification',function(req, res){
 	console.log("A New Archive is created");
 		
-	/*if(req.method =="POST"){
-		console.log("\nArchive Notification is called : Post Type");
-		console.log("JSON as Body Parameter: "+req.body);
-		
-		res.end();		
-	}
-	else{
-		console.log("Archive Notification is called : GET Type");
-		
-	}*/
+	
 })
 
 app.get('/StreamConnectionEvents',function(req, res){
 	console.log("Stream Connection event is created");
 		
-	/*if(req.method =="POST"){
-		console.log("\nStream or connection event is called : Post Type");
-		console.log("JSON as Body Parameter: "+req.body);
-			
-		res.end();		
-	}
-	else{
-		console.log("\nStream or connection event is called : GET Type")
-	}*/
 		
 })
 app.get('/getarchives',function(req, res){

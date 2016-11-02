@@ -47,7 +47,7 @@ function initializeSession(sessionId, tokenId) {
 			//Object doesn't support property or method 'connect'
 		}else{
 			publisherProperties={resolution: '640x480'}; //,insertMode: 'append',width: '100%',height: '100%'
-			var publisher = OT.initPublisher('publisherContainer', publisherProperties , function (error){
+			publisher = OT.initPublisher('publisherContainer', publisherProperties , function (error){
 							if (error) {
 								console.log("initPublisher error: The client cannot publish!: "+error.message)
 							} else {
@@ -156,4 +156,14 @@ function isIE () {
 			return;
 		}
 	
+}
+
+function takePicture(){
+	console.log("Take Picture function called");
+	var imgData = publisher.getImgData();
+	var img = document.createElement("img");
+	img.setAttribute("src", "data:image/png;base64," + imgData);
+
+	// Replace with the parent DIV for the img
+	document.getElementById("subscriberContainer").appendChild(img);
 }
