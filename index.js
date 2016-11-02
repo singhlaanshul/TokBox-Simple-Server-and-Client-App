@@ -12,7 +12,7 @@ opentok = new OpenTok(apiKey, 'ab40bd3c873ac61a56b82cb3d309d1023f5968ee');
 
 myParser = require("body-parser");
 app=express();
-app.use(myParser.urlencoded({extended : true}));
+app.use(myParser.json({extended : true}));
 app.use(express.static(__dirname + '/views/public'));
 
 //Starting the server
