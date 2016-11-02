@@ -94,13 +94,13 @@ app.post('/testme', function(req,res){
 )
 app.post('/archiveNotification',function(req, res){
 	var jsonbody=req.body;
-	console.log("With request", jsonbody);
+	console.log("Archive CallBack JSON", jsonbody);
 	
 	if(jsonbody==null){
-		console.log("Archive Notification: No JSON received. Error!");		
+		console.log("Archive Callback: No JSON received. Error!");		
 	}
 	else{
-		console.log("Archive Notification: "+ jsonbody.status +" Archive Id:"+jsonbody.id);
+		console.log("Archive Callback: "+ jsonbody.status +" Archive Id:"+jsonbody.id);
 	}
 	
 	res.end();
@@ -109,6 +109,8 @@ app.post('/archiveNotification',function(req, res){
 
 app.post('/StreamConnectionEvents',function(req, res){
 	console.log("Stream Connection event is created");
+	var objbody=req.body;
+	console.log("Stream Connection Callback", objbody);
 	res.end();
 		
 })
