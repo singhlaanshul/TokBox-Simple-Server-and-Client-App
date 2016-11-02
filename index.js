@@ -89,13 +89,15 @@ app.post('/testme', function(req,res){
 	res.end();
 }
 )
-app.get('/archiveNotification',function(req, res){
+app.post('/archiveNotification',function(req, res){
 	console.log("A New Archive is created");
+	console.log('Archive request =' + JSON.stringify(req.body));
+	console.log("With request", req.body);
 	res.end();
 	
 })
 
-app.get('/StreamConnectionEvents',function(req, res){
+app.post('/StreamConnectionEvents',function(req, res){
 	console.log("Stream Connection event is created");
 	res.end();
 		
