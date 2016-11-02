@@ -87,7 +87,7 @@ app.get('/getToken', function (req, res) {
 app.get('/testme', function(req,res){
 	console.log("Satnam Waheguru");
 }
-}
+)
 app.get('/archiveNotification',function(req, res){
 	console.log("A New Archive is created");
 		
