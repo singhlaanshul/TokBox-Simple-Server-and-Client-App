@@ -9,7 +9,10 @@ var sessionId;
 var apiKey='45631912';
 
 opentok = new OpenTok(apiKey, 'ab40bd3c873ac61a56b82cb3d309d1023f5968ee');
+
+myParser = require("body-parser");
 app=express();
+app.use(myParser.urlencoded({extended : true}));
 app.use(express.static(__dirname + '/views/public'));
 
 //Starting the server
@@ -93,6 +96,7 @@ app.post('/archiveNotification',function(req, res){
 	console.log("A New Archive is created");
 	console.log('Archive request =' + JSON.stringify(req.body));
 	console.log("With request", req.body);
+	
 	res.end();
 	
 })
