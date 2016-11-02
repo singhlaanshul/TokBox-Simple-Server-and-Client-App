@@ -84,19 +84,20 @@ app.get('/getToken', function (req, res) {
 	else
 		console.log("POST METHOD YET TO BE IMPLEMENTED")
 })
-app.get('/testme', function(req,res){
+app.post('/testme', function(req,res){
 	console.log("Satnam Waheguru");
+	res.end();
 }
 )
 app.get('/archiveNotification',function(req, res){
 	console.log("A New Archive is created");
-		
+	res.end();
 	
 })
 
 app.get('/StreamConnectionEvents',function(req, res){
 	console.log("Stream Connection event is created");
-		
+	res.end();
 		
 })
 app.get('/getarchives',function(req, res){
