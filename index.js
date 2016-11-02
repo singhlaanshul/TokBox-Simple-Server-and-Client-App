@@ -93,9 +93,15 @@ app.post('/testme', function(req,res){
 }
 )
 app.post('/archiveNotification',function(req, res){
-	console.log("A New Archive is created");
-	console.log('Archive request =' + JSON.stringify(req.body));
-	console.log("With request", req.body);
+	var jsonbody=req.body;
+	console.log("With request", jsonbody);
+	
+	if(jsonbody==null){
+		console.log("Archive Notification: No JSON received. Error!");		
+	}
+	else{
+		console.log("Archive Notification: "+ jsonbody.status +" Archive Id:"+jsonbody.id);
+	}
 	
 	res.end();
 	
