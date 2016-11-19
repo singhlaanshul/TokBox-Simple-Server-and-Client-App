@@ -179,7 +179,7 @@ function initializeScreenSharingSession(){
 	
 	var session = OT.initSession(apiKey, sessionId);
 
-    session.connect(token, function(error) {
+    session.connect(tokenId, function(error) {
       if (error) {
         alert('Error connecting to session: ' + error.message);
         return;
