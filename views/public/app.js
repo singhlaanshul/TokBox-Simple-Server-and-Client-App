@@ -73,7 +73,7 @@ function initializeSession(sessionId, tokenId) {
 						console.log("accessDenied: The user has denied access to the camera and mic.");
 					},
 					streamCreated: function (event) {
-						console.log('Publisher streamCreated: The publisher started streaming. Resolution='+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
+						console.log('Publisher streamCreated: The publisher started streaming. Resolution='+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height+' Stream Id='+event.stream.streamId);
 					},
 					streamDestroyed: function (event) {
 						console.log("Publisher streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
@@ -88,7 +88,9 @@ function initializeSession(sessionId, tokenId) {
 	// Subscribe to a newly created stream
 	session.on('streamCreated', function(event) {
 					console.log("Session Stream Created Event: Subscribing Stream Id= " + event.stream.streamId);
+					
 					subscriberProperties={insertMode: 'append',width: '100%',height: '100%'};
+					
 					var subscriber= session.subscribe(event.stream, 'subscriberContainer',null, function(error){
 						if (error) {
 							console.log("Error while adding the subscriber:"+error);
@@ -106,7 +108,8 @@ function initializeSession(sessionId, tokenId) {
 	session.on({
 		connectionCreated: function (event) {
 			connectionCount++;
-			console.log('Session Connection Created Event: '+connectionCount + ' connections.');
+			//connection id from connection object
+			console.log('Session Connection Created Event: '+connectionCount + ' connections. Connection Id'+event.connection);
 		},
 		connectionDestroyed: function (event) {
 			connectionCount--;
