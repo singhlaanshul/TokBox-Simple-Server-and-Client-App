@@ -9,7 +9,7 @@
 	<button onclick="getToken()"> Get Token Id </button> <br><br>
 	<button onclick="initializeScreenSharingSession()"> Establish Connection </button> <br>
 	
-    <button onclick="javascript:screenshare();" disabled id="shareBtn">Share your screen</button><br><br>
+    <button onclick="screenshare()" disabled id="shareBtn">Share your screen</button><br><br>
     <a href="firefox@hcl-0.0.1.xpi">Install extension</a><br>
  
     <h3>Session Id: </h3><div id="sessionId"></div><br>
@@ -22,17 +22,14 @@
 
 	<script type="text/javascript">
 	
-    
-
-    
-
     function screenshare() {
-      OT.checkScreenSharingCapability(function(response) {
+      
+	  OT.checkScreenSharingCapability(function(response) {
         console.info(response);
-        if (!response.supported || response.extensionRegistered === false) {
+        
+		if (!response.supported || response.extensionRegistered === false) {
           alert('This browser does not support screen sharing.');
-        } else if (response.extensionInstalled === false
-            && (response.extensionRequired || !ffWhitelistVersion)) {
+        } else if (response.extensionInstalled === false && (response.extensionRequired || !ffWhitelistVersion)) {
           alert('Please install the screen-sharing extension and load this page over HTTPS.');
         } else if (ffWhitelistVersion && navigator.userAgent.match(/Firefox/)
           && navigator.userAgent.match(/Firefox\/(\d+)/)[1] < ffWhitelistVersion) {
