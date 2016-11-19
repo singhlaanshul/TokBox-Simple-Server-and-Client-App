@@ -1,31 +1,32 @@
 <html>
 <body>
 	<script type="text/javascript" src="app.js"></script>
-	 <script src="https://static.opentok.com/v2/js/opentok.min.js" charset="utf-8"></script>
+	<script src="https://static.opentok.com/v2/js/opentok.min.js" charset="utf-8"></script>
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 	
 	
 	<button onclick="getSession()"> Get Session Id </button> <br><br>
 	<button onclick="getToken()"> Get Token Id </button> <br><br>
-  <button onclick="javascript:screenshare();" disabled id="shareBtn">Share your screen</button><br><br>
-  <a href="firefox@hcl-0.0.1.xpi">Install extension</a><br>
+	
+    <button onclick="javascript:screenshare();" disabled id="shareBtn">Share your screen</button><br><br>
+    <a href="firefox@hcl-0.0.1.xpi">Install extension</a><br>
  
- <h3>Session Id: </h3><div id="sessionId"></div><br>
-  <h3>Token Id: </h3><div id="tokenId"></div><br>
+    <h3>Session Id: </h3><div id="sessionId"></div><br>
+    <h3>Token Id: </h3><div id="tokenId"></div><br>
   
-  <div id="camera-publisher"></div>
-  <div id="camera-subscriber"></div>
-  <div id="screen-subscriber"></div>
+	<div id="camera-publisher"></div>
+	<div id="camera-subscriber"></div>
+	<div id="screen-subscriber"></div>
   
 
-  <script type="text/javascript">
+	<script type="text/javascript">
 	 
 	 
     // Go to https://dashboard.tokbox.com/ to get your OpenTok API Key and to generate
     // a test session ID and token:
     var apiKey    = '45631912';
-      sessionId = document.getElementById("sessionId").innerHTML;
-      token     = document.getElementById("tokenId").innerHTML;;
+      sessionId = getSession();
+      token     = getToken();
 
     var session = OT.initSession(apiKey, sessionId);
 
