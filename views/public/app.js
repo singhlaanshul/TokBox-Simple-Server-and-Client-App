@@ -170,3 +170,37 @@ function takePicture(){
 	// Replace with the parent DIV for the img
 	document.getElementById("subscriberContainer").appendChild(img);
 }
+
+function initializeScreenSharingSession(){
+	var sessionId=document.getElementById("sessionId").innerHTML;
+	var tokenId=document.getElementById("tokenId").innerHTML;
+	console.log("Session Id:"+sessionId);
+	console.log("Token id:"+tokenId);
+	
+	var session = OT.initSession(apiKey, sessionId);
+
+    session.connect(token, function(error) {
+      if (error) {
+        alert('Error connecting to session: ' + error.message);
+        return;
+      }
+      // publish a stream using the camera and microphone:
+      var publisher = OT.initPublisher('camera-publisher');
+      session.publish(publisher);
+      document.getElementById('shareBtn').disabled = false;
+    });
+
+    session.on('streamCreated', function(event) {
+      if (event.stream.videoType === 'screen') {
+        // This is a screen-sharing stream published by another client
+        var subOptions = {
+          width: event.stream.videoDimensions.width / 2,
+          height: event.stream.videoDimensions.height / 2
+        };
+        session.subscribe(event.stream, 'screen-subscriber', subOptions);
+      } else {
+        // This is a stream published by another client using the camera and microphone
+        session.subscribe(event.stream, 'camera-subscriber');
+      }
+    });
+}
