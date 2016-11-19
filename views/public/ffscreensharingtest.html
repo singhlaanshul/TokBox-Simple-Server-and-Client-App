@@ -22,11 +22,11 @@
 	<script type="text/javascript">
 	 
 	
-    var apiKey    = "45631912";
-      sessionId = getSession();
+  
+    var  sessionId = getSession();
       token     = getToken();
 
-    var session = OT.initSession(apiKey, sessionId);
+    var session = OT.initSession('45631912', sessionId);
 
     session.connect(token, function(error) {
       if (error) {
