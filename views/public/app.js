@@ -202,5 +202,41 @@ function initializeScreenSharingSession(){
         // This is a stream published by another client using the camera and microphone
         session.subscribe(event.stream, 'camera-subscriber');
       }
-    });
+    });	
 }
+function screenshare() {
+      
+	  OT.checkScreenSharingCapability(function(response) {
+        console.info(response);
+        
+		if (!response.supported || response.extensionRegistered === false) {
+          alert('This browser does not support screen sharing.');
+        } else if (response.extensionInstalled === false && (response.extensionRequired || !ffWhitelistVersion)) {
+          alert('Please install the screen-sharing extension and load this page over HTTPS.');
+        } else if (ffWhitelistVersion && navigator.userAgent.match(/Firefox/)
+          && navigator.userAgent.match(/Firefox\/(\d+)/)[1] < ffWhitelistVersion) {
+            alert('For screen sharing, please update your version of Firefox to '
+              + ffWhitelistVersion + '.');
+        } else {
+          // Screen sharing is available. Publish the screen.
+          // Create an element, but do not display it in the HTML DOM:
+          var screenContainerElement = document.createElement('div');
+          var screenSharingPublisher = OT.initPublisher(
+            screenContainerElement,
+            { videoSource : 'screen' },
+            function(error) {
+              if (error) {
+                alert('Something went wrong: ' + error.message);
+              } else {
+                session.publish(
+                  screenSharingPublisher,
+                  function(error) {
+                    if (error) {
+                      alert('Something went wrong: ' + error.message);
+                    }
+                  });
+              }
+            });
+          }
+        });
+    }
