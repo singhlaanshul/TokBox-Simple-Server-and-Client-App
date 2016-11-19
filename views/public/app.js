@@ -205,7 +205,8 @@ function initializeScreenSharingSession(){
     });	
 }
 function screenshare() {
-      
+       var ffWhitelistVersion; // = '36';
+	   
 	  OT.checkScreenSharingCapability(function(response) {
         console.info(response);
         
