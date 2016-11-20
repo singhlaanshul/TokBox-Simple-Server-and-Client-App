@@ -185,8 +185,8 @@ function initializeScreenSharingSession(){
         return;
       }
       // publish a stream using the camera and microphone:
-      var publisher = OT.initPublisher('camera-publisher');
-      session.publish(publisher);
+      //var publisher = OT.initPublisher('camera-publisher');
+      //session.publish(publisher);
       document.getElementById('shareBtn').disabled = false;
     });
 
@@ -206,7 +206,7 @@ function initializeScreenSharingSession(){
 }
 function screenshare() {
        var ffWhitelistVersion; // = '36';
-	   
+	   //var session = OT.initSession(apiKey, sessionId);
 	  OT.checkScreenSharingCapability(function(response) {
         console.info(response);
         
