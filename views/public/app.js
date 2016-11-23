@@ -185,8 +185,8 @@ function initializeScreenSharingSession(){
         return;
       }
       // publish a stream using the camera and microphone:
-      var publisher = OT.initPublisher('camera-publisher');
-      session.publish(publisher);
+      //var publisher = OT.initPublisher('camera-publisher');
+      //session.publish(publisher);
       document.getElementById('shareBtn').disabled = false;
     });
 
