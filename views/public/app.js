@@ -76,7 +76,16 @@ function initializeSession(sessionId, tokenId) {
 						console.log('Publisher streamCreated: The publisher started streaming. Resolution='+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height+' Stream Id='+event.stream.streamId);
 					},
 					streamDestroyed: function (event) {
-						console.log("Publisher streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
+						if (event.reason === 'mediaStopped') {
+							console.log("Publisher streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
+						} else if (event.reason === 'forceUnpublished') {
+							console.log("Publisher streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
+						} else {
+							console.log("Publisher streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
+						}
+					},
+					mediaStopped: function (event){
+						
 					}
 			
 		});
