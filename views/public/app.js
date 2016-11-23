@@ -186,7 +186,7 @@ function initializeScreenSharingSession(){
 	console.log("Session Id:"+sessionId);
 	console.log("Token id:"+tokenId);
 	
-	var session = OT.initSession(apiKey, sessionId);
+	session = OT.initSession(apiKey, sessionId);
 
     session.connect(tokenId, function(error) {
       if (error) {
