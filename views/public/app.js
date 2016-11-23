@@ -185,8 +185,8 @@ function initializeScreenSharingSession(){
         return;
       }
       // publish a stream using the camera and microphone:
-      //var publisher = OT.initPublisher('camera-publisher');
-      //session.publish(publisher);
+      var publisher = OT.initPublisher('camera-publisher');
+      session.publish(publisher);
       document.getElementById('shareBtn').disabled = false;
     });
 
@@ -203,6 +203,18 @@ function initializeScreenSharingSession(){
         session.subscribe(event.stream, 'camera-subscriber');
       }
     });	
+}
+
+function initializeScreenSharingSessionForChrome(){
+	initializeScreenSharingSession();
+	// Replace this with the ID for your Chrome screen-sharing extension, which you can
+    // get at chrome://extensions/:
+	var extensionId = 'lmnimhpghpjpbpeajcfmkkohbailaakp';
+	
+    // For Google Chrome only, register your extension by ID,
+    // You can find it at chrome://extensions once the extension is installed
+    OT.registerScreenSharingExtension('chrome', 'lmnimhpghpjpbpeajcfmkkohbailaakp', 2);
+	
 }
 function screenshare() {
        var ffWhitelistVersion; // = '36';
@@ -241,3 +253,7 @@ function screenshare() {
           }
         });
     }
+	
+function stopScreenShare(){
+		
+}
