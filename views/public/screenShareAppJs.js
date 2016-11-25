@@ -114,15 +114,15 @@ function screenshare() {
 					},
 					streamDestroyed: function (event) {
 						if (event.reason === 'mediaStopped') {
-							console.log("Publisher streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
+							console.log("Publisher streamDestroyed:mediaStopped");
 						} else if (event.reason === 'forceUnpublished') {
-							console.log("Publisher streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
+							console.log("Publisher streamDestroyed: forceUnpublished");
 						} else {
 							console.log("Publisher streamDestroyed: The publisher stopped streaming. Reason: "+ event.reason);
 						}
 					},
 					mediaStopped: function (event){
-						console.log("Publisher mediaStopped: The publisher stopped screen sharing. Reason: "+ event.reason);
+						console.log("Publisher mediaStopped: The publisher stopped screen sharing.);
 					}
 			
 			});
