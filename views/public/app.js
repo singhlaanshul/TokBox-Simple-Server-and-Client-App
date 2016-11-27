@@ -1,54 +1,32 @@
 var apiKey='45631912';
 var connectionCount=0;
+var success='';
+
 function getSession(){
 			$.ajax({
 				type: 'GET',
 				url: '/getSession',
 				success: function(resultData) {
 					console.log(resultData);
-					var sessionId=resultData.sessionId;
-					
+					sessionId=resultData.sessionId;
+					console.log("Session Id:"+sessionId);	
 					document.getElementById("sessionId").innerHTML=sessionId;
-					
 					$.ajax({
 						type: 'GET',
 						url: '/getToken?sessionId='+sessionId,
 						success: function(resultData) {
 							console.log(resultData);
-							document.getElementById("tokenId").innerHTML=resultData.tokenId;
-							
-							var sessionId=document.getElementById("sessionId").innerHTML;
-							var tokenId=document.getElementById("tokenId").innerHTML;
-							console.log("Session Id:"+sessionId);
+							tokenId=resultData.tokenId;
 							console.log("Token id:"+tokenId);
-		
+							document.getElementById("tokenId").innerHTML=tokenId;
 							initializeSession(sessionId,tokenId );
-						}
+						}		
 					});
 				}
 			});
 	}
-	function getToken(){
-			var sessionId=document.getElementById("sessionId").innerHTML;
-			$.ajax({
-				type: 'GET',
-				url: '/getToken?sessionId='+sessionId,
-				success: function(resultData) {
-					console.log(resultData);
-					document.getElementById("tokenId").innerHTML=resultData.tokenId;
-				}
-			});
-	}
-	function establishConnection(){
-		var sessionId=document.getElementById("sessionId").innerHTML;
-		var tokenId=document.getElementById("tokenId").innerHTML;
-		console.log("Session Id:"+sessionId);
-		console.log("Token id:"+tokenId);
-		
-		initializeSession(sessionId,tokenId );
-	}
-
-
+	
+	
 function initializeSession(sessionId, tokenId) {
 	console.log("Called initializeSession...");
 	var session = OT.initSession(apiKey, sessionId);
