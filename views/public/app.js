@@ -6,7 +6,25 @@ function getSession(){
 				url: '/getSession',
 				success: function(resultData) {
 					console.log(resultData);
-					document.getElementById("sessionId").innerHTML=resultData.sessionId;
+					var sessionId=resultData.sessionId;
+					
+					document.getElementById("sessionId").innerHTML=sessionId;
+					
+					$.ajax({
+						type: 'GET',
+						url: '/getToken?sessionId='+sessionId,
+						success: function(resultData) {
+							console.log(resultData);
+							document.getElementById("tokenId").innerHTML=resultData.tokenId;
+							
+							var sessionId=document.getElementById("sessionId").innerHTML;
+							var tokenId=document.getElementById("tokenId").innerHTML;
+							console.log("Session Id:"+sessionId);
+							console.log("Token id:"+tokenId);
+		
+							initializeSession(sessionId,tokenId );
+						}
+					});
 				}
 			});
 	}

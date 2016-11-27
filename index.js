@@ -29,7 +29,7 @@ var server=app.listen(process.env.PORT || 5000, function () {
 app.get('/', function(req, res) {
 	console.log("\nLaunching client.html");
     
-	res.sendFile( __dirname + "/" + "views/public/screensharingtest.html" );	
+	res.sendFile( __dirname + "/" + "views/public/client.html" );	
 });
 //just replace client.html with screensharingtest.html in case of testing the screensharingtest
 //just replace client.html with ffscreensharingtest.html in case of testing the screensharing on Firefox browser
