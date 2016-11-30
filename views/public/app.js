@@ -104,6 +104,7 @@ function initializeSession(sessionId, tokenId) {
 						}
 					});
 					//console.log("Subscriber added:");
+					subscriber.setAudioLevel(0);
 				},
 				'streamDestroyed',function(event){
 					console.log("Session Stream Destoryed Event: Stream="+event.stream.name+" destroyed. Reason="+event.reason);

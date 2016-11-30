@@ -6,21 +6,24 @@ function getSession(){
 				url: '/getSession',
 				success: function(resultData) {
 					console.log(resultData);
+					sessionId=resultData.sessionId;
 					document.getElementById("sessionId").innerHTML=resultData.sessionId;
+					
+					$.ajax({
+						type: 'GET',
+						url: '/getToken?sessionId='+sessionId,
+						success: function(resultData) {
+							console.log(resultData);
+							tokenId=resultData.tokenId;
+							document.getElementById("tokenId").innerHTML=resultData.tokenId;
+							//initializeScreenSharingSessionForChrome();
+						}
+					});
 				}
 			});
 	}
-	function getToken(){
-			var sessionId=document.getElementById("sessionId").innerHTML;
-			$.ajax({
-				type: 'GET',
-				url: '/getToken?sessionId='+sessionId,
-				success: function(resultData) {
-					console.log(resultData);
-					document.getElementById("tokenId").innerHTML=resultData.tokenId;
-				}
-			});
-	}
+	
+	
 function disconnect() {
   session.disconnect();
 }
@@ -122,7 +125,7 @@ function screenshare() {
 						}
 					},
 					mediaStopped: function (event){
-						console.log("Publisher mediaStopped: The publisher stopped screen sharing.);
+						console.log("Publisher mediaStopped: The publisher stopped screen sharing.");
 					}
 			
 			});
