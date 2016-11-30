@@ -72,8 +72,9 @@ function initializeScreenSharingSessionForChrome(){
 	
     // For Google Chrome only, register your extension by ID,
     // You can find it at chrome://extensions once the extension is installed
-    OT.registerScreenSharingExtension('chrome', 'lmnimhpghpjpbpeajcfmkkohbailaakp', 2);
-	
+    OT.registerScreenSharingExtension('chrome', 'kbkolbkilbamopfanfcphjnapjinkdii', 2);
+	//sabir kbkolbkilbamopfanfcphjnapjinkdii
+	//lmnimhpghpjpbpeajcfmkkohbailaakp
 }
 function screenshare() {
        var ffWhitelistVersion; // = '36';
