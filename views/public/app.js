@@ -1,6 +1,8 @@
 var apiKey='45631912';
 var connectionCount=0;
 var success='';
+var session;
+var publisher, subscriber, stream;
 
 function getSession(){
 			$.ajax({
@@ -28,8 +30,9 @@ function getSession(){
 	
 	
 function initializeSession(sessionId, tokenId) {
-	console.log("Called initializeSession...");
-	var session = OT.initSession(apiKey, sessionId);
+	
+	session = OT.initSession(apiKey, sessionId);
+	console.log("Session object created");
 	if(session==null){
 	  console.log("Not able to create session object. You may exit");	  
 	}	
@@ -37,11 +40,61 @@ function initializeSession(sessionId, tokenId) {
 	// Connect to the session
 	session.connect(	tokenId, function(error) {
 		// If the connection is successful, initialize a publisher and publish to the session
-		console.log("Establishing connection! please wait...");
+		
 		if (error) {
 			console.log('Unable to connect: ', error.message);
 			//Object doesn't support property or method 'connect'
 		}else{
+			console.log("Session connected");
+		}
+	});
+  
+	// Subscribe to a newly created stream
+	session.on('streamCreated', function(event) {
+										
+					subscriberProperties={insertMode: 'append',width: '100%',height: '100%'};
+					stream=event.stream;
+					subscriber= session.subscribe(stream, 'subscriberContainer',null, function(error){
+						if (error) {
+							console.log("Error while adding the subscriber:"+error);
+						} else {
+							console.log('Subscribing to stream='+stream.streamId+'.Video resolution:'+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
+						}
+					});
+					//console.log("Subscriber added:");
+					//subscriber.setAudioLevel(0);
+				},
+				'streamDestroyed',function(event){
+					console.log("Session Stream Destoryed Event: Stream="+event.stream.name+" destroyed. Reason="+event.reason);
+				}		
+	);
+
+	session.on({
+		connectionCreated: function (event) {
+			connectionCount++;
+			//As soon as clients call session.connect this is called
+			//connection id from connection object
+			console.log('Session Connection Created Event: '+connectionCount + ' connections. Connection Id'+event.connection);
+		},
+		connectionDestroyed: function (event) {
+			connectionCount--;
+			console.log('Session Connection Destroyed event: '+connectionCount + ' connections.');
+		},
+		sessionDisconnected: function sessionDisconnectHandler(event) {
+			// The event is defined by the SessionDisconnectEvent class
+			console.log('Session Disconnected Event: ', event.reason);
+			document.getElementById('disconnectBtn').style.display = 'none';
+			if (event.reason == 'networkDisconnected') {
+				alert('Your network connection terminated.')
+			}
+		},
+		streamDestroyed: function(event){
+			console.log("Session Stream Destoryed Event1: Stream="+event.stream.streamId);
+		}
+	});
+}
+
+function publish(){
 			publisherProperties={resolution: '640x480'}; //,insertMode: 'append',width: '100%',height: '100%'
 			publisher = OT.initPublisher('publisherContainer', publisherProperties , function (error){
 							if (error) {
@@ -87,84 +140,13 @@ function initializeSession(sessionId, tokenId) {
 		});
 		//} else {
 			//console.log('There was an error connecting to the session: ', error.code, error.message);
-		}
-	});
-  
-	// Subscribe to a newly created stream
-	session.on('streamCreated', function(event) {
-					console.log("Session Stream Created Event: Subscribing Stream Id= " + event.stream.streamId);
-					
-					subscriberProperties={insertMode: 'append',width: '100%',height: '100%'};
-					
-					var subscriber= session.subscribe(event.stream, 'subscriberContainer',null, function(error){
-						if (error) {
-							console.log("Error while adding the subscriber:"+error);
-						} else {
-							console.log('Subscriber added.Now width of video resolution:'+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
-						}
-					});
-					//console.log("Subscriber added:");
-					subscriber.setAudioLevel(0);
-				},
-				'streamDestroyed',function(event){
-					console.log("Session Stream Destoryed Event: Stream="+event.stream.name+" destroyed. Reason="+event.reason);
-				}		
-	);
-
-	session.on({
-		connectionCreated: function (event) {
-			connectionCount++;
-			//connection id from connection object
-			console.log('Session Connection Created Event: '+connectionCount + ' connections. Connection Id'+event.connection);
-		},
-		connectionDestroyed: function (event) {
-			connectionCount--;
-			console.log('Session Connection Destroyed event: '+connectionCount + ' connections.');
-		},
-		sessionDisconnected: function sessionDisconnectHandler(event) {
-			// The event is defined by the SessionDisconnectEvent class
-			console.log('Session Disconnected Event: ', event.reason);
-			document.getElementById('disconnectBtn').style.display = 'none';
-			if (event.reason == 'networkDisconnected') {
-				alert('Your network connection terminated.')
-			}
-		}
-	});
 }
-
-function disconnect() {
+function unSubscribe(){
+	console.log("Unsubcribing from session for stream Id:"+stream.streamId);
+	session.unsubscribe(stream);
+}
+function disconnectFromSession() {
   session.disconnect();
-}
-
-// Detect whether this browser is IE
-function isIE () {
-  var userAgent = window.navigator.userAgent.toLowerCase(),
-      appName = window.navigator.appName;
- 
-  var result= ( appName === 'Microsoft Internet Explorer' ||                     		// IE <= 10
-           (appName === 'Netscape' && userAgent.indexOf('trident') > -1) );     // IE >= 11
-		   
-	console.log("The browser is IE:"+result);
-
-	var isInstalled = false;
-	var version = null;
-	var ieplugin=window.navigator.plugins;
-	console.log("IE plugins:"+ieplugin);
-	//if (window.ActiveXObject) {
-		var control = null;
-		try {
-			control = new ActiveXObject('Installer for OpenTok Plugin');
-			console.log("Tokbox Plugin exists");
-			if (control) {
-				isInstalled = true;
-				version = parseFloat(control.versionInfo);
-				console.log("Tokbox Plugin version:"+control.versionInfo);
-			}
-		} catch (e) {
-			console.log("Tokbox Plugin error exists:"+e);
-			return;
-		}
-	
 }
 
 function takePicture(){
@@ -175,91 +157,4 @@ function takePicture(){
 
 	// Replace with the parent DIV for the img
 	document.getElementById("subscriberContainer").appendChild(img);
-}
-
-function initializeScreenSharingSession(){
-	var sessionId=document.getElementById("sessionId").innerHTML;
-	var tokenId=document.getElementById("tokenId").innerHTML;
-	console.log("Session Id:"+sessionId);
-	console.log("Token id:"+tokenId);
-	
-	session = OT.initSession(apiKey, sessionId);
-
-    session.connect(tokenId, function(error) {
-      if (error) {
-        alert('Error connecting to session: ' + error.message);
-        return;
-      }
-      // publish a stream using the camera and microphone:
-      //var publisher = OT.initPublisher('camera-publisher');
-      //session.publish(publisher);
-      document.getElementById('shareBtn').disabled = false;
-    });
-
-    session.on('streamCreated', function(event) {
-      if (event.stream.videoType === 'screen') {
-        // This is a screen-sharing stream published by another client
-        var subOptions = {
-          width: event.stream.videoDimensions.width / 2,
-          height: event.stream.videoDimensions.height / 2
-        };
-        session.subscribe(event.stream, 'screen-subscriber', subOptions);
-      } else {
-        // This is a stream published by another client using the camera and microphone
-        session.subscribe(event.stream, 'camera-subscriber');
-      }
-    });	
-}
-
-function initializeScreenSharingSessionForChrome(){
-	initializeScreenSharingSession();
-	// Replace this with the ID for your Chrome screen-sharing extension, which you can
-    // get at chrome://extensions/:
-	var extensionId = 'lmnimhpghpjpbpeajcfmkkohbailaakp';
-	
-    // For Google Chrome only, register your extension by ID,
-    // You can find it at chrome://extensions once the extension is installed
-    OT.registerScreenSharingExtension('chrome', 'lmnimhpghpjpbpeajcfmkkohbailaakp', 2);
-	
-}
-function screenshare() {
-       var ffWhitelistVersion; // = '36';
-	   //var session = OT.initSession(apiKey, sessionId);
-	  OT.checkScreenSharingCapability(function(response) {
-        console.info(response);
-        
-		if (!response.supported || response.extensionRegistered === false) {
-          alert('This browser does not support screen sharing.');
-        } else if (response.extensionInstalled === false && (response.extensionRequired || !ffWhitelistVersion)) {
-          alert('Please install the screen-sharing extension and load this page over HTTPS.');
-        } else if (ffWhitelistVersion && navigator.userAgent.match(/Firefox/)
-          && navigator.userAgent.match(/Firefox\/(\d+)/)[1] < ffWhitelistVersion) {
-            alert('For screen sharing, please update your version of Firefox to '
-              + ffWhitelistVersion + '.');
-        } else {
-          // Screen sharing is available. Publish the screen.
-          // Create an element, but do not display it in the HTML DOM:
-          var screenContainerElement = document.createElement('div');
-          var screenSharingPublisher = OT.initPublisher(
-            screenContainerElement,
-            { videoSource : 'screen' },
-            function(error) {
-              if (error) {
-                alert('Something went wrong: ' + error.message);
-              } else {
-                session.publish(
-                  screenSharingPublisher,
-                  function(error) {
-                    if (error) {
-                      alert('Something went wrong: ' + error.message);
-                    }
-                  });
-              }
-            });
-          }
-        });
-    }
-	
-function stopScreenShare(){
-		
 }
