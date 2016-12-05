@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+<script type="text/javascript">
+	  var jsonData={
+	"sessionId": "2_MX40NTU5Mjk0Mn5-MTQ3ODUzMzE2NTk4Mn5ncVcxMVkzTFg0VEF2Q0YzZUxsUHZtNnN-fg",
+	"token": "T1==cGFydG5lcl9pZD00NTU5Mjk0MiZzaWc9ZDM0YzUxMjQyZjkzYWM4NzMxNmE4OGFhMzk5Y2VmM2EwYjllZGZiYzpzZXNzaW9uX2lkPTJfTVg0ME5UVTVNamswTW41LU1UUTNOelEzTXpFNU1qTTFPWDVOVUZWb09DdENTRmswVEdkalQySnVXR2cwVVdkMGNrOS1mZyZjcmVhdGVfdGltZT0xNDgwNTE0NTc3Jm5vbmNlPTAuMjE3NDc4ODExMTIwNjgwMDImcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTQ4MzEwNjU3OQ==",
+	  "sip": {
+		"uri": "sip:sabir_1@sip.linphone.org;transport=tls",
+		"secure": false
+	}
+}
+
+	var deatils = null;
+	var status = null;
+	
+function ajaxCall() {
+		var obj = JSON.stringify(jsonData);
+		var serverUrl = "http://api.opentok.com/v2/project/45592942/call";
+
+		$.ajax({
+			type : 'POST',
+			url : serverUrl,
+			headers: {
+        'X-TB-PARTNER-AUTH':'45592942:92c49242824dd9e83890c8c282da3628e8d56752',
+        'Content-Type':'application/json'
+    },
+			data : obj,
+			cache : false,
+			dataType : "json",
+		}).then(function(data) {
+		alert("coming"+data);
+			var res = JSON.stringify(data);
+			$("#data").innerHTML("<b>" + res + " </b>");
+			
+		});
+	};
+</script>
+<style type="text/css">
+body {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<h1>SIP Integration Test</h1>
+	<button onclick="ajaxCall();">InitiateSIPCall</button>
+
+
+	<div id="data"></div>
+</body>
+</html>
+
