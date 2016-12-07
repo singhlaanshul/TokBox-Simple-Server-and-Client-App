@@ -15,17 +15,17 @@
 
     // Go to https://dashboard.tokbox.com/ to get your OpenTok API Key and to generate
     // a test session ID and token:
-    var apiKey    = '45389072',
-      sessionId = '1_MX40NTM4OTA3Mn5-MTQ3ODAwNTY4MDUxOX5pTS9LK0ljV2tOaFRFNWFJTUY2NmVKSUd-fg',
-      //sessionId = '2_MX40NTM4OTA3Mn5-MTQ3NzMxMTQ3MTg3OH5zRUV2cmc1M0xhUEg1NGJUek0yT3VqeTR-fg',
+    var apiKey    = '45631912',
+      sessionId = '2_MX40NTYzMTkxMn5-MTQ4MTExMjE1MDUyOX5NQk04UnNEdDMyRTNCM2R6dk1LVHYyckx-fg',
+     
       dataName='1',
-      secret = 'a8e675382fc403efeebd8e5e345af71e4844deaa',
-      token     = '';
+      secret = 'ab40bd3c873ac61a56b82cb3d309d1023f5968ee',
+      token     = 'T1==cGFydG5lcl9pZD00NTYzMTkxMiZzaWc9MTk1ZTUwMWYzZTMwNDQyYTlkNTI1NDdlZWE3YjcyYTZhOTE4OTA1ZDpzZXNzaW9uX2lkPTJfTVg0ME5UWXpNVGt4TW41LU1UUTRNVEV4TWpFMU1EVXlPWDVOUWswNFVuTkVkRE15UlROQ00yUjZkazFMVkhZeWNreC1mZyZjcmVhdGVfdGltZT0xNDgxMTEyMTkxJm5vbmNlPTAuNDk2MDc0MzIyMzg4NDcyMDQmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTQ4MTExNTc4OSZjb25uZWN0aW9uX2RhdGE9MQ==';
 
     // Replace this with the ID for your Chrome screen-sharing extension, which you can
     // get at chrome://extensions/:
 	
-    var extensionId = 'gblnocdoppedppdbajafnnmonlacbnbf';
+    var extensionId = 'lmnimhpghpjpbpeajcfmkkohbailaakp';
 
     var secondsInDay = 86400;
     var timeNow = Math.floor(Date.now()/1000);
@@ -39,11 +39,12 @@
     var dataString =  "session_id="+sessionId+"&create_time="+timeNow+"&expire_time="+expire+"&role="+role+"&connection_data="+data+"&nonce="+rand;
     // Encryption
 
-    var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA1, secret);
+   /* var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA1, secret);
     hmac.update( dataString );
     hash = hmac.finalize();
     preCoded = "partner_id="+apiKey+"&sig="+hash+":"+dataString;
     token = "T1=="+base64.encode( preCoded )
+	**/
 
     // If you register your domain with the the Firefox screen-sharing whitelist, instead of using
     // a Firefox screen-sharing extension, set this to the Firefox version number, such as 36, in which
