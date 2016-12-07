@@ -1,0 +1,120 @@
+<html>
+<body>
+  <div id="videoScreenForSubscriber">
+    <button onclick="javascript:screenshare();" disabled id="shareBtn">Share your screen</button>
+    <div id="camera-publisher"></div>
+    <div id="camera-subscriber"></div>
+    <div id="screen-subscriber"></div>
+  </div>
+  <script src="//static.opentok.com/v2/js/opentok.js"></script>
+  <script src="@routes.Assets.versioned("js/sha1.js")" type="text/javascript"></script>
+   <script src="@routes.Assets.versioned("js/base64.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("js/hmac-sha1.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("js/bootbox.js")" type="text/javascript"></script>
+  <script type="text/javascript">
+
+    // Go to https://dashboard.tokbox.com/ to get your OpenTok API Key and to generate
+    // a test session ID and token:
+    var apiKey    = '45389072',
+      sessionId = '1_MX40NTM4OTA3Mn5-MTQ3ODAwNTY4MDUxOX5pTS9LK0ljV2tOaFRFNWFJTUY2NmVKSUd-fg',
+      //sessionId = '2_MX40NTM4OTA3Mn5-MTQ3NzMxMTQ3MTg3OH5zRUV2cmc1M0xhUEg1NGJUek0yT3VqeTR-fg',
+      dataName='1',
+      secret = 'a8e675382fc403efeebd8e5e345af71e4844deaa',
+      token     = '';
+
+    // Replace this with the ID for your Chrome screen-sharing extension, which you can
+    // get at chrome://extensions/:
+	
+    var extensionId = 'gblnocdoppedppdbajafnnmonlacbnbf';
+
+    var secondsInDay = 86400;
+    var timeNow = Math.floor(Date.now()/1000);
+    var expire = timeNow+secondsInDay;
+    var role = "publisher";
+    var data = dataName;//"bob";
+    TB.setLogLevel(TB.DEBUG);
+    // Calculation
+    data = escape(data);
+    var rand = Math.floor(Math.random()*999999);
+    var dataString =  "session_id="+sessionId+"&create_time="+timeNow+"&expire_time="+expire+"&role="+role+"&connection_data="+data+"&nonce="+rand;
+    // Encryption
+
+    var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA1, secret);
+    hmac.update( dataString );
+    hash = hmac.finalize();
+    preCoded = "partner_id="+apiKey+"&sig="+hash+":"+dataString;
+    token = "T1=="+base64.encode( preCoded )
+
+    // If you register your domain with the the Firefox screen-sharing whitelist, instead of using
+    // a Firefox screen-sharing extension, set this to the Firefox version number, such as 36, in which
+    // your domain was added to the whitelist:
+
+    var ffWhitelistVersion; // = '36';
+
+    var session = OT.initSession(apiKey, sessionId);
+
+    session.connect(token, function(error) {
+      if (error) {
+        alert('Error connecting to session: ' + error.message);
+        return;
+      }
+      // publish a stream using the camera and microphone:
+      var publisher = OT.initPublisher('camera-publisher');
+      session.publish(publisher);
+      document.getElementById('shareBtn').disabled = false;
+    });
+
+    session.on('streamCreated', function(event) {
+      if (event.stream.videoType === 'screen') {
+        // This is a screen-sharing stream published by another client
+        var subOptions = {
+          width: event.stream.videoDimensions.width / 2,
+          height: event.stream.videoDimensions.height / 2,
+          insertMode: 'replace'
+        };
+        session.subscribe(event.stream, 'videoScreenForSubscriber', subOptions);
+      } else {
+        // This is a stream published by another client using the camera and microphone
+        session.subscribe(event.stream, 'camera-subscriber');
+      }
+    });
+
+    // For Google Chrome only, register your extension by ID,
+    // You can find it at chrome://extensions once the extension is installed
+    OT.registerScreenSharingExtension('chrome', extensionId, 1);
+
+    function screenshare() {
+      OT.checkScreenSharingCapability(function(response) {
+        console.info(response);
+        if (!response.supported || response.extensionRegistered === false) {
+          alert('This browser does not support screen sharing.');
+        } else if (response.extensionInstalled === false) {
+          alert('Please install the screen-sharing extension and load this page over HTTPS.');
+        }  else {
+          // Screen sharing is available. Publish the screen.
+          // Create an element, but do not display it in the HTML DOM:
+          var screenContainerElement = document.createElement('div');
+          var screenSharingPublisher = OT.initPublisher(
+            screenContainerElement,
+            { videoSource : 'screen' },
+            function(error) {
+              if (error) {
+                alert('Something went wrong: ' + error.message);
+              } else {
+                session.publish(
+                  screenSharingPublisher,
+                  function(error) {
+                    if (error) {
+                      alert('Something went wrong: ' + error.message);
+                    }
+                  });
+              }
+            });
+          }
+        });
+    }
+    
+   
+  </script>
+</body>
+</html>
