@@ -143,7 +143,7 @@ function publish(){
 }
 function unSubscribe(){
 	console.log("Unsubcribing from session for stream Id:"+stream.streamId);
-	session.unsubscribe(stream);
+	session.unsubscribe(subscriber);
 }
 function disconnectFromSession() {
   session.disconnect();
