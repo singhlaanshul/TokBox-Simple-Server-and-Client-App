@@ -145,6 +145,16 @@ function unSubscribe(){
 	console.log("Unsubcribing from session for stream Id:"+stream.streamId);
 	session.unsubscribe(subscriber);
 }
+
+function subscribeAgain(){
+	subscriber= session.subscribe(stream, 'subscriberContainer',null, function(error){
+						if (error) {
+							console.log("Error while adding the subscriber again:"+error);
+						} else {
+							console.log('Re-Subscribing to stream='+stream.streamId+'.Video resolution:'+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
+						}
+					});
+}
 function disconnectFromSession() {
   session.disconnect();
 }
