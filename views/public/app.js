@@ -3,6 +3,7 @@ var connectionCount=0;
 var success='';
 var session;
 var publisher, subscriber, stream;
+var subscribers = [];
 
 function getSession(){
 			$.ajax({
@@ -61,6 +62,7 @@ function initializeSession(sessionId, tokenId) {
 							console.log('Subscribing to stream='+stream.streamId+'.Video resolution:'+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
 						}
 					});
+					 subscribers.push(subscriber);
 					//console.log("Subscriber added:");
 					//subscriber.setAudioLevel(0);
 				},
@@ -151,7 +153,8 @@ function subscribeAgain(){
 						if (error) {
 							console.log("Error while adding the subscriber again:"+error);
 						} else {
-							console.log('Re-Subscribing to stream='+stream.streamId+'.Video resolution:'+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
+							console.log('Resubscribing to stream');
+							//console.log('Re-Subscribing to stream='+stream.streamId+'.Video resolution:'+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
 						}
 					});
 }
