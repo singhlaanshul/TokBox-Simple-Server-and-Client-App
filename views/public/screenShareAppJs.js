@@ -81,9 +81,14 @@ function screenshare() {
 	   //var session = OT.initSession(apiKey, sessionId);
 	  OT.checkScreenSharingCapability(function(response) {
         console.info(response);
-        
+        console.log('Response.supported: '+ response.supported);
+		console.log('Response.extensionRegistered: '+ response.extensionRegistered);
+		console.log('Response.extensionInstalled: '+ response.extensionInstalled);
+		console.log('Response.extensionRequired: '+ response.extensionRequired);
+		
 		if (!response.supported || response.extensionRegistered === false) {
           alert('This browser does not support screen sharing.');
+		  
         } else if (response.extensionInstalled === false && (response.extensionRequired || !ffWhitelistVersion)) {
           alert('Please install the screen-sharing extension and load this page over HTTPS.');
         } else if (ffWhitelistVersion && navigator.userAgent.match(/Firefox/)
