@@ -97,7 +97,7 @@ function initializeSession(sessionId, tokenId) {
 }
 
 function publish(){
-			publisherProperties={resolution: '640x480', publishAudio:true, publishVideo:false}; //,insertMode: 'append',width: '100%',height: '100%'
+			publisherProperties={resolution: '640x480'}; //,insertMode: 'append',width: '100%',height: '100%',publishAudio:true, publishVideo:false
 			publisher = OT.initPublisher('publisherContainer', publisherProperties , function (error){
 							if (error) {
 								console.log("initPublisher error: The client cannot publish!: "+error.message)
