@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+  <body>
+  <div id="streamsContainer"></div>
+    <script src="https://static.opentok.com/v2/js/opentok.js" charset="utf-8"></script>
+    <script charset="utf-8">
+    
+	  var apiKey = '45631912';
+      var sessionId = '2_MX40NTYzMTkxMn5-MTQ4MTExNjYyOTIwM354YU1jTlhYY3hpaU9QSWxPZXprb1NSd1N-fg';
+       var token = 'T1==cGFydG5lcl9pZD00NTYzMTkxMiZzZGtfdmVyc2lvbj1kZWJ1Z2dlciZzaWc9MzVlNWJmOTRhMzg4MDU3NzQ3YTU2YzM1MjQ3NDFmZDZkM2VmZDBhNjpzZXNzaW9uX2lkPTJfTVg0ME5UWXpNVGt4TW41LU1UUTRNVEV4TmpZeU9USXdNMzU0WVUxalRsaFlZM2hwYVU5UVNXeFBaWHByYjFOU2QxTi1mZyZjcmVhdGVfdGltZT0xNDgxMTE2NjI5JnJvbGU9bW9kZXJhdG9yJm5vbmNlPTE0ODExMTY2MjkuMjI5MzE1NDQ4MDczMzImZXhwaXJlX3RpbWU9MTQ4MzcwODYyOQ==';
+	  var streams = [];
+	  var subscribers = [];
+
+var session = OT.initSession(apiKey, sessionId);
+
+session.on("streamCreated", function(event) {
+    var stream = event.stream;
+    displayStream(stream);
+});
+session.connect(token, function(error) {
+           var publisherProperties = {resolution: '1280x720'};
+      		var publisher = OT.initPublisher('camera-publisher',publisherProperties);
+      
+      		session.publish(publisher);
+      
+        });
+
+function displayStream(stream) {
+    var div = document.createElement('div');
+    div.setAttribute('id', 'stream' + stream.streamId);
+
+    var subscriber = session.subscribe(stream, div);
+    subscribers.push(subscriber);
+
+    var aLink = document.createElement('a');
+    aLink.setAttribute('href', 'javascript: unsubscribe("' + subscriber.id + '")');
+    aLink.innerHTML = "Unsubscribe";
+
+    var streamsContainer = document.getElementById('streamsContainer');
+    streamsContainer.appendChild(div);
+    streamsContainer.appendChild(aLink);
+    //streams.push(event.streams);
+}
+
+function unsubscribe(subscriberId) {
+    console.log("unsubscribe called");
+    for (var i = 0; i < subscribers.length; i++) {
+        var subscriber = subscribers[i];
+        if (subscriber.id == subscriberId) {
+            session.unsubscribe(subscriber);
+        }
+    }
+}
+</script>
+</body>
+</html>
