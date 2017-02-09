@@ -143,6 +143,10 @@ function publish(){
 		//} else {
 			//console.log('There was an error connecting to the session: ', error.code, error.message);
 }
+function unPublish(){
+	console.log('Yet to be implemented');
+}
+	
 function unSubscribe(){
 	console.log("Unsubcribing from session for stream Id:"+stream.streamId);
 	session.unsubscribe(subscriber);
@@ -157,6 +161,21 @@ function subscribeAgain(){
 							//console.log('Re-Subscribing to stream='+stream.streamId+'.Video resolution:'+event.stream.videoDimensions.width +'x' + event.stream.videoDimensions.height);
 						}
 					});
+					
+	subscriber.setStyle('audioLevelDisplayMode', 'off');
+	var movingAvg = null;
+	subscriber.on('audioLevelUpdated', function(event) {
+		if (movingAvg === null || movingAvg <= event.audioLevel) {
+			movingAvg = event.audioLevel;
+		} else {
+			movingAvg = 0.7 * movingAvg + 0.3 * event.audioLevel;
+		}
+
+	// 1.5 scaling to map the -30 - 0 dBm range to [0,1]
+	var logLevel = (Math.log(movingAvg) / Math.LN10) / 1.5 + 1;
+	logLevel = Math.min(Math.max(logLevel, 0), 1);
+	document.getElementById('subscriberMeter').value = logLevel;
+	});
 }
 function disconnectFromSession() {
   session.disconnect();
