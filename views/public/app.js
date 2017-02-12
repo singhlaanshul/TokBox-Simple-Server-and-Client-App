@@ -182,6 +182,7 @@ function disconnectFromSession() {
 }
 
 function takePicture(){
+	
 	console.log("Take Picture function called");
 	var imgData = publisher.getImgData();
 	var img = document.createElement("img");
@@ -189,4 +190,24 @@ function takePicture(){
 
 	// Replace with the parent DIV for the img
 	document.getElementById("subscriberContainer").appendChild(img);
+}
+
+function startArchive(){
+	$.ajax({
+				type: 'GET',
+				url: '/createArchive',
+				success: function(resultData) {
+					console.log(resultData);
+				}
+	})
+}
+
+function stopArchive(){
+	$.ajax({
+				type: 'GET',
+				url: '/stopArchive',
+				success: function(resultData) {
+					console.log(resultData);
+				}
+	})
 }

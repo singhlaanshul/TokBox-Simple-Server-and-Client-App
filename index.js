@@ -5,7 +5,7 @@ var qs = require('querystring')
 var url=require('url')
 var ejs=require('ejs')
 var newSessionCreated=false;
-var sessionId; 
+var sessionId, archiveId; 
 var apiKey='45631912';
 
 opentok = new OpenTok(apiKey, 'ab40bd3c873ac61a56b82cb3d309d1023f5968ee');
@@ -62,7 +62,7 @@ app.get('/getSession', function (req, res) {
 })
 
 function createNewSession(callback){
-	 opentok.createSession({mediaMode:'routed', archiveMode:'always'},function(error,session){
+	 opentok.createSession({mediaMode:'routed'},function(error,session){
 				if(error){
 					console.log("Error creating session",error);
 					process.exit(1);
@@ -74,6 +74,30 @@ function createNewSession(callback){
 				}
 			});
 }
+app.get('/createArchive', function (req, res) {
+	funtion createArchive(){
+	opentok.startArchive(sessionId, { name: 'Khushboo' }, function(err, archive) {
+		if (err) {
+				return console.log(err);
+		} else {
+				// The id property is useful to save off into a database
+				archiveId=archive.id;
+				console.log("New archive started:" + archiveId);
+		}
+	});
+	}
+})
+
+app.get('/stopArchive', function (req, res) {
+function stopArchive(){
+	opentok.stopArchive(archiveId, function(err, archive) {
+		if (err) return console.log(err);
+
+		console.log("Stopped archive:" + archive.id);
+		archiveId=null;
+	});
+}
+})
 
 //Generating Token
 app.get('/getToken', function (req, res) {
