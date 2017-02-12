@@ -75,7 +75,7 @@ function createNewSession(callback){
 			});
 }
 app.get('/createArchive', function (req, res) {
-	funtion createArchive(){
+	
 	opentok.startArchive(sessionId, { name: 'Khushboo' }, function(err, archive) {
 		if (err) {
 				return console.log(err);
@@ -86,17 +86,17 @@ app.get('/createArchive', function (req, res) {
 		}
 	});
 	}
-})
+)
 
 app.get('/stopArchive', function (req, res) {
-function stopArchive(){
+
 	opentok.stopArchive(archiveId, function(err, archive) {
 		if (err) return console.log(err);
 
 		console.log("Stopped archive:" + archive.id);
 		archiveId=null;
 	});
-}
+
 })
 
 //Generating Token
