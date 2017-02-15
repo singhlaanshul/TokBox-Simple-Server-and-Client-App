@@ -81,11 +81,12 @@ function initializeSession(sessionId, tokenId) {
 		connectionDestroyed: function (event) {
 			connectionCount--;
 			console.log('Session Connection Destroyed event: '+connectionCount + ' connections.');
+			alert('Connection Destroyed event:'+event.reason);
 		},
 		sessionDisconnected: function sessionDisconnectHandler(event) {
 			// The event is defined by the SessionDisconnectEvent class
 			console.log('Session Disconnected Event: ', event.reason);
-			document.getElementById('disconnectBtn').style.display = 'none';
+			//document.getElementById('disconnectBtn').style.display = 'none';
 			if (event.reason == 'networkDisconnected') {
 				alert('Your network connection terminated.')
 			}
@@ -97,7 +98,7 @@ function initializeSession(sessionId, tokenId) {
 }
 
 function publish(){
-			publisherProperties={resolution: '640x480'}; //,insertMode: 'append',width: '100%',height: '100%',publishAudio:true, publishVideo:false
+			publisherProperties={resolution: '320x240'}; //,insertMode: 'append',width: '100%',height: '100%',publishAudio:true, publishVideo:false
 			publisher = OT.initPublisher('publisherContainer', publisherProperties , function (error){
 							if (error) {
 								console.log("initPublisher error: The client cannot publish!: "+error.message)

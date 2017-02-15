@@ -62,7 +62,7 @@ app.get('/getSession', function (req, res) {
 })
 
 function createNewSession(callback){
-	 opentok.createSession({mediaMode:'routed'},function(error,session){
+	 opentok.createSession({mediaMode:'routed', archiveMode:'always'},function(error,session){
 				if(error){
 					console.log("Error creating session",error);
 					process.exit(1);
