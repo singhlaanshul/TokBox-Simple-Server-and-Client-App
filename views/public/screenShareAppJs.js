@@ -99,7 +99,7 @@ function screenshare() {
           // Screen sharing is available. Publish the screen.
           // Create an element, but do not display it in the HTML DOM:
           var screenContainerElement = document.createElement('div');
-          var screenSharingPublisher = OT.initPublisher( screenContainerElement, { videoSource : 'application' },function(error) {
+          var screenSharingPublisher = OT.initPublisher( screenContainerElement, { videoSource : 'screen' },function(error) {
               if (error) {
                 alert('Something went wrong: ' + error.message);
               } else {
